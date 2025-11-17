@@ -101,6 +101,33 @@ export type Database = {
         }
         Relationships: []
       }
+      member_payment_data: {
+        Row: {
+          created_at: string
+          id: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       members: {
         Row: {
           address: string | null
@@ -114,8 +141,6 @@ export type Database = {
           membership_status: string
           membership_type: string
           phone: string | null
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
           updated_at: string
           user_id: string | null
         }
@@ -131,8 +156,6 @@ export type Database = {
           membership_status?: string
           membership_type?: string
           phone?: string | null
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -148,8 +171,6 @@ export type Database = {
           membership_status?: string
           membership_type?: string
           phone?: string | null
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
           user_id?: string | null
         }
