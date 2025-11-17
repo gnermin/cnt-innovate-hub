@@ -7,6 +7,35 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
+import { z } from "zod";
+
+const membershipSchema = z.object({
+  full_name: z.string()
+    .trim()
+    .min(2, { message: "Ime mora imati najmanje 2 znaka" })
+    .max(100, { message: "Ime ne smije biti duže od 100 znakova" })
+    .regex(/^[a-zA-ZčćžšđČĆŽŠĐ\s]+$/, { message: "Ime može sadržavati samo slova i razmake" }),
+  phone: z.string()
+    .trim()
+    .regex(/^\+?[1-9]\d{1,14}$/, { message: "Unesite važeći broj telefona (npr. +38761234567)" })
+    .optional()
+    .or(z.literal("")),
+  date_of_birth: z.string()
+    .refine((date) => {
+      if (!date) return true; // Optional field
+      const birthDate = new Date(date);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      return age >= 13 && age <= 120;
+    }, { message: "Starost mora biti između 13 i 120 godina" })
+    .optional()
+    .or(z.literal("")),
+  address: z.string()
+    .trim()
+    .max(200, { message: "Adresa ne smije biti duža od 200 znakova" })
+    .optional()
+    .or(z.literal("")),
+});
 
 const MembershipCheckout = () => {
   const [user, setUser] = useState<any>(null);
@@ -44,16 +73,19 @@ const MembershipCheckout = () => {
     setLoading(true);
 
     try {
+      // Validate form data
+      const validatedData = membershipSchema.parse(formData);
+
       // Create member record
       const { error: memberError } = await supabase
         .from('members')
         .insert({
           user_id: user.id,
           email: user.email,
-          full_name: formData.full_name,
-          phone: formData.phone,
-          date_of_birth: formData.date_of_birth,
-          address: formData.address,
+          full_name: validatedData.full_name,
+          phone: validatedData.phone || null,
+          date_of_birth: validatedData.date_of_birth || null,
+          address: validatedData.address || null,
           membership_type: 'monthly',
           membership_status: 'pending',
         });
@@ -75,11 +107,20 @@ const MembershipCheckout = () => {
         });
       }
     } catch (error: any) {
-      toast({
-        title: "Greška",
-        description: error.message || "Došlo je do greške",
-        variant: "destructive",
-      });
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Greška validacije",
+          description: firstError.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Greška",
+          description: error.message || "Došlo je do greške",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
