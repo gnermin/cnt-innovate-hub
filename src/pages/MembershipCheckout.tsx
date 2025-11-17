@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
+import { SubscriptionStatus } from "@/components/SubscriptionStatus";
 
 const membershipSchema = z.object({
   full_name: z.string()
@@ -39,7 +40,9 @@ const membershipSchema = z.object({
 
 const MembershipCheckout = () => {
   const [user, setUser] = useState<any>(null);
+  const [existingMember, setExistingMember] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [checkingMember, setCheckingMember] = useState(true);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
@@ -50,7 +53,7 @@ const MembershipCheckout = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) {
         toast({
           title: "Prijava potrebna",
@@ -64,6 +67,25 @@ const MembershipCheckout = () => {
           ...prev,
           full_name: user.user_metadata?.full_name || "",
         }));
+
+        // Check if member already exists
+        const { data: member } = await supabase
+          .from('members')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        setExistingMember(member);
+        setCheckingMember(false);
+
+        if (member) {
+          setFormData({
+            full_name: member.full_name || "",
+            phone: member.phone || "",
+            date_of_birth: member.date_of_birth || "",
+            address: member.address || "",
+          });
+        }
       }
     });
   }, [navigate, toast]);
@@ -76,26 +98,38 @@ const MembershipCheckout = () => {
       // Validate form data
       const validatedData = membershipSchema.parse(formData);
 
-      // Create member record
-      const { error: memberError } = await supabase
-        .from('members')
-        .insert({
-          user_id: user.id,
-          email: user.email,
-          full_name: validatedData.full_name,
-          phone: validatedData.phone || null,
-          date_of_birth: validatedData.date_of_birth || null,
-          address: validatedData.address || null,
-          membership_type: 'monthly',
-          membership_status: 'pending',
-        });
+      // Update or create member record
+      if (existingMember) {
+        const { error: memberError } = await supabase
+          .from('members')
+          .update({
+            full_name: validatedData.full_name,
+            phone: validatedData.phone || null,
+            date_of_birth: validatedData.date_of_birth || null,
+            address: validatedData.address || null,
+          })
+          .eq('user_id', user.id);
 
-      if (memberError) throw memberError;
+        if (memberError) throw memberError;
+      } else {
+        const { error: memberError } = await supabase
+          .from('members')
+          .insert({
+            user_id: user.id,
+            email: user.email,
+            full_name: validatedData.full_name,
+            phone: validatedData.phone || null,
+            date_of_birth: validatedData.date_of_birth || null,
+            address: validatedData.address || null,
+            membership_type: 'monthly',
+            membership_status: 'pending',
+          });
+
+        if (memberError) throw memberError;
+      }
 
       // Call Stripe checkout function
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1234567890' }, // This will be replaced with actual Stripe price ID
-      });
+      const { data, error } = await supabase.functions.invoke('create-checkout');
 
       if (error) throw error;
 
@@ -114,6 +148,12 @@ const MembershipCheckout = () => {
           description: firstError.message,
           variant: "destructive",
         });
+      } else if (error.message?.includes('duplicate key value violates unique constraint')) {
+        toast({
+          title: "Članstvo već postoji",
+          description: "Već imate aktivno članstvo",
+          variant: "destructive",
+        });
       } else {
         toast({
           title: "Greška",
@@ -126,8 +166,12 @@ const MembershipCheckout = () => {
     }
   };
 
-  if (!user) {
-    return null;
+  if (!user || checkingMember) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -138,11 +182,21 @@ const MembershipCheckout = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold mb-4">Postani Član</h1>
+              <h1 className="text-4xl font-bold mb-4">
+                {existingMember ? 'Upravljaj Članstvom' : 'Postani Član'}
+              </h1>
               <p className="text-muted-foreground">
-                Popunite formu i nastavite na plaćanje
+                {existingMember 
+                  ? 'Pregledajte status članarine i ažurirajte svoje podatke'
+                  : 'Popunite formu i nastavite na plaćanje'}
               </p>
             </div>
+
+            {existingMember && (
+              <div className="mb-8">
+                <SubscriptionStatus />
+              </div>
+            )}
 
             <div className="bg-card p-8 rounded-lg border border-neon">
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -184,10 +238,10 @@ const MembershipCheckout = () => {
                 <div className="bg-primary/10 p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold">Mjesečna Članarina:</span>
-                    <span className="text-2xl font-bold">20 KM</span>
+                    <span className="text-2xl font-bold">20 EUR</span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Pristup svim programima i radionicama
+                    Pristup svim programima i radionicama • Automatsko obnavljanje
                   </p>
                 </div>
 
@@ -197,6 +251,8 @@ const MembershipCheckout = () => {
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Kreiranje...
                     </>
+                  ) : existingMember ? (
+                    "Obnovi Članarinu"
                   ) : (
                     "Nastavi na Plaćanje"
                   )}
