@@ -6,6 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(2, { message: "Ime mora imati najmanje 2 znaka" })
+    .max(100, { message: "Ime mora imati najviše 100 znakova" }),
+  email: z.string()
+    .trim()
+    .email({ message: "Unesite ispravnu email adresu" })
+    .max(255, { message: "Email mora imati najviše 255 znakova" }),
+  subject: z.string()
+    .trim()
+    .min(5, { message: "Predmet mora imati najmanje 5 znakova" })
+    .max(200, { message: "Predmet mora imati najviše 200 znakova" }),
+  message: z.string()
+    .trim()
+    .min(10, { message: "Poruka mora imati najmanje 10 znakova" })
+    .max(2000, { message: "Poruka mora imati najviše 2000 znakova" }),
+});
 
 const Contact = () => {
   const { toast } = useToast();
@@ -18,11 +38,24 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Poruka poslata",
-      description: "Odgovorićemo vam u najkraćem roku",
-    });
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    
+    try {
+      contactSchema.parse(formData);
+      
+      toast({
+        title: "Poruka poslata",
+        description: "Odgovorićemo vam u najkraćem roku",
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Greška u validaciji",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
