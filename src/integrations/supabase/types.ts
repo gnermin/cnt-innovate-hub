@@ -14,6 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          image_url: string | null
+          published: boolean
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string
+          end_date: string | null
+          event_type: string
+          id: string
+          image_url: string | null
+          location: string | null
+          max_participants: number | null
+          registration_required: boolean | null
+          start_date: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          end_date?: string | null
+          event_type: string
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          max_participants?: number | null
+          registration_required?: boolean | null
+          start_date: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          event_type?: string
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          max_participants?: number | null
+          registration_required?: boolean | null
+          start_date?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      members: {
+        Row: {
+          address: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string
+          full_name: string
+          id: string
+          membership_end_date: string | null
+          membership_start_date: string | null
+          membership_status: string
+          membership_type: string
+          phone: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email: string
+          full_name: string
+          id?: string
+          membership_end_date?: string | null
+          membership_start_date?: string | null
+          membership_status?: string
+          membership_type?: string
+          phone?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          membership_end_date?: string | null
+          membership_start_date?: string | null
+          membership_status?: string
+          membership_type?: string
+          phone?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          active: boolean
+          email: string
+          id: string
+          name: string | null
+          subscribed_at: string
+        }
+        Insert: {
+          active?: boolean
+          email: string
+          id?: string
+          name?: string | null
+          subscribed_at?: string
+        }
+        Update: {
+          active?: boolean
+          email?: string
+          id?: string
+          name?: string | null
+          subscribed_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -34,6 +199,51 @@ export type Database = {
           email?: string
           full_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      workshops: {
+        Row: {
+          active: boolean
+          age_group: string | null
+          category: string
+          created_at: string
+          description: string
+          duration: string | null
+          id: string
+          image_url: string | null
+          price: number | null
+          schedule: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          age_group?: string | null
+          category: string
+          created_at?: string
+          description: string
+          duration?: string | null
+          id?: string
+          image_url?: string | null
+          price?: number | null
+          schedule?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          age_group?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          duration?: string | null
+          id?: string
+          image_url?: string | null
+          price?: number | null
+          schedule?: string | null
+          title?: string
           updated_at?: string
         }
         Relationships: []
