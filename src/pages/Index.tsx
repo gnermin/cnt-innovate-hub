@@ -45,6 +45,7 @@ const Index = () => {
               <span className="text-neon-cyan">CENTAR ZA</span>
               <br />
               <span className="text-neon-purple">NAPREDNE TEHNOLOGIJE</span>
+              <br />
               <span className="text-neon-cyan">DrONE1</span>
               <br />
             </h1>
