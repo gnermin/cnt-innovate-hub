@@ -159,7 +159,7 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Adresa</h3>
                       <p className="text-muted-foreground">
-                        Ulica Prnjavor bb
+                        Ulica Pirota bb
                         <br />
                         72270 Travnik
                         <br />
