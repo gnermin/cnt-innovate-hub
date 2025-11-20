@@ -15,7 +15,7 @@ const Footer = () => {
               <span className="font-bold">CNT</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Centar za napredne tehnologije - Inspiracija. Inovacija. Napredak.
+              Centar za napredne tehnologije DrOne1 - Inspiracija. Inovacija. Napredak.
             </p>
           </div>
 
@@ -23,10 +23,26 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Brzi Linkovi</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/about" className="hover:text-primary transition-colors">O Nama</Link></li>
-              <li><Link to="/programs" className="hover:text-primary transition-colors">Programi</Link></li>
-              <li><Link to="/events" className="hover:text-primary transition-colors">Događaji</Link></li>
-              <li><Link to="/blog" className="hover:text-primary transition-colors">Blog</Link></li>
+              <li>
+                <Link to="/about" className="hover:text-primary transition-colors">
+                  O Nama
+                </Link>
+              </li>
+              <li>
+                <Link to="/programs" className="hover:text-primary transition-colors">
+                  Programi
+                </Link>
+              </li>
+              <li>
+                <Link to="/events" className="hover:text-primary transition-colors">
+                  Događaji
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className="hover:text-primary transition-colors">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -53,10 +69,16 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Društvene Mreže</h3>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors"
+              >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors"
+              >
                 <Instagram className="w-5 h-5" />
               </a>
             </div>
@@ -64,7 +86,7 @@ const Footer = () => {
         </div>
 
         <div className="pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Centar za Napredne Tehnologije. Sva prava zadržana.</p>
+          <p>&copy; 2025 Centar za Napredne Tehnologije. Sva prava zadržana.</p>
         </div>
       </div>
     </footer>
