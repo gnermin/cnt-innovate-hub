@@ -11,7 +11,7 @@ const Index = () => {
     {
       icon: Cpu,
       title: "Robotika",
-      description: "Praktičan rad sa robotima, od Lego do Arduino projekata",
+      description: "Praktičan rad sa robotima, od Microbit do Arduino projekata",
     },
     {
       icon: Brain,
