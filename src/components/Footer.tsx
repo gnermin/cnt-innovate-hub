@@ -60,7 +60,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                Sarajevo, BiH
+                Ulica Pirota bb, Travnik
               </li>
             </ul>
           </div>

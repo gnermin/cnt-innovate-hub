@@ -173,7 +173,7 @@ const Contact = () => {
               {/* Map */}
               <div className="bg-card rounded-lg border border-border overflow-hidden h-80">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45578.81726798951!2d18.35620673668874!3d43.856577399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758cbb1ed719bd1%3A0x562ecda6de87b33e!2sSarajevo!5e0!3m2!1sen!2sba!4v1234567890123!5m2!1sen!2sba"
+                  src="https://maps.google.com/maps?q=Pirota+bb,+72270+Travnik,+Bosnia+and+Herzegovina&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
