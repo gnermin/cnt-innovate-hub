@@ -7,44 +7,43 @@ const Blog = () => {
   const posts = [
     {
       title: "Uvod u Robotiku za Početnike",
-      excerpt: "Saznajte sve što trebate znati o robotici i kako započeti svoj put u ovoj uzbudljivoj oblasti tehnologije.",
-      author: "Maja Kovačević",
-      date: "10. Februar 2024",
-      category: "Robotika"
+      excerpt:
+        "Saznajte sve što trebate znati o robotici i kako započeti svoj put u ovoj uzbudljivoj oblasti tehnologije.",
+      author: "Enisa Kos, dipl.ing.el",
+      date: "10. Februar 2026",
+      category: "Robotika",
     },
     {
       title: "Kako AI Mijenja Svijet Obrazovanja",
       excerpt: "Istraživanje načina na koje umjetna inteligencija transformiše način na koji učimo i podučavamo.",
-      author: "Dr. Amar Hadžić",
-      date: "5. Februar 2024",
-      category: "Umjetna Inteligencija"
+      author: "Dr. Nermin Goran",
+      date: "5. Februar 2026",
+      category: "Umjetna Inteligencija",
     },
     {
       title: "Naši Učenici na Međunarodnom Takmičenju",
       excerpt: "Tim CNT-a osvaja treće mjesto na prestižnom robotika takmičenju u Beču.",
-      author: "Nermin Jusufović",
-      date: "1. Februar 2024",
-      category: "Vijesti"
+      author: "prof. Smajo Mekić",
+      date: "1. Februar 2026",
+      category: "Vijesti",
     },
     {
       title: "Osnove Elektronike: Od Nule do Heroja",
       excerpt: "Kompletni vodič kroz osnovne elektronske komponente i kako ih koristiti u projektima.",
-      author: "Maja Kovačević",
-      date: "28. Januar 2024",
-      category: "Elektronika"
-    }
+      author: "Dr. Nermin Goran",
+      date: "28. Januar 2026",
+      category: "Elektronika",
+    },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <main className="pt-24 pb-16">
         <section className="container mx-auto px-4 mb-16">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-neon-cyan">
-              Blog i Vijesti
-            </h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-neon-cyan">Blog i Vijesti</h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Najnovije vijesti, tutorijali i priče iz svijeta tehnologije
             </p>
@@ -54,7 +53,7 @@ const Blog = () => {
         <section className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             {posts.map((post, idx) => (
-              <article 
+              <article
                 key={idx}
                 className="bg-card rounded-lg border border-border hover:border-neon transition-all overflow-hidden"
               >
@@ -67,7 +66,7 @@ const Blog = () => {
                     {post.title}
                   </h3>
                   <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                  
+
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                     <div className="flex items-center gap-1">
                       <User className="w-4 h-4" />
@@ -78,7 +77,7 @@ const Blog = () => {
                       <span>{post.date}</span>
                     </div>
                   </div>
-                  
+
                   <Button variant="outline">Pročitaj Više</Button>
                 </div>
               </article>
